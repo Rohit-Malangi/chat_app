@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:whatsapp_clone/database/database_method.dart';
-import 'package:whatsapp_clone/screens/chat_screen.dart';
+
+import '../database/database_method.dart';
+import '../screens/chat_screen.dart';
 
 class ChatRoomTile extends StatefulWidget {
   const ChatRoomTile(
@@ -56,15 +58,16 @@ class _ChatRoomTileState extends State<ChatRoomTile> {
         leading: ClipRRect(
           borderRadius: BorderRadius.circular(25),
           child: SizedBox(
-            height: 50,
-            width: 50,
-            child: imageUrl == ''
-                ? const SizedBox()
-                : Image.network(
-                    imageUrl,
-                    fit: BoxFit.cover,
-                  ),
-          ),
+              height: 50,
+              width: 50,
+              child: imageUrl == ''
+                  ? const SizedBox()
+                  : CachedNetworkImage(
+                      placeholder: (context, imageUrl) =>
+                          const CircularProgressIndicator(),
+                      imageUrl: imageUrl,
+                      fit: BoxFit.cover,
+                    )),
         ),
         title: Text(
           name == '' ? 'Loading...' : name,

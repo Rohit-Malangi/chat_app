@@ -1,7 +1,10 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
+import '../screens/verify.dart';
 import './image_picker.dart';
 
 class AuthForm extends StatefulWidget {
@@ -11,10 +14,7 @@ class AuthForm extends StatefulWidget {
   final void Function({
     required BuildContext ctx,
     required String email,
-    File? image,
-    required bool islogin,
     required String password,
-    required String username,
   }) submitAuthForm;
   final bool _isLoading;
   @override
@@ -33,7 +33,7 @@ class _AuthFormState extends State<AuthForm> {
     _userImage = image;
   }
 
-  void _trySummit() {
+  void _trySummit() async {
     final isvalid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
     if (_isLogin) {
@@ -41,9 +41,7 @@ class _AuthFormState extends State<AuthForm> {
         _formKey.currentState!.save();
         widget.submitAuthForm(
           email: _userEmail.trim(),
-          username: _userName.trim(),
           password: _passWord.trim(),
-          islogin: _isLogin,
           ctx: context,
         );
       }
@@ -53,14 +51,39 @@ class _AuthFormState extends State<AuthForm> {
             .showSnackBar(const SnackBar(content: Text('Please Pick a Image')));
       } else if (isvalid) {
         _formKey.currentState!.save();
-        widget.submitAuthForm(
-          email: _userEmail.toString().trim(),
-          username: _userName.toString().trim(),
-          password: _passWord.toString().trim(),
-          islogin: _isLogin,
-          image: _userImage,
-          ctx: context,
-        );
+        try {
+          await FirebaseAuth.instance
+              .createUserWithEmailAndPassword(
+                  email: _userEmail.toString().trim(),
+                  password: _passWord.toString().trim())
+              .then(
+                (value) => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => Verify(
+                      userName: _userName.toString().trim(),
+                      userImage: _userImage,
+                    ),
+                  ),
+                ),
+              );
+        } on PlatformException catch (error) {
+          var message = 'An Error ocurred, please cheak your credentials.';
+          if (error.message != null) {
+            message = error.message!;
+          }
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(message),
+            ),
+          );
+        } catch (error) {
+          var message = 'Email is already exixts .';
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(message),
+            ),
+          );
+        }
       }
     }
   }
@@ -141,19 +164,20 @@ class _AuthFormState extends State<AuthForm> {
                         onPressed: _trySummit,
                         child: Text(_isLogin ? 'Login' : 'SignUp')),
                 TextButton(
-                    onPressed: widget._isLoading
-                        ? null
-                        : () {
-                            setState(() {
-                              _isLogin = !_isLogin;
-                            });
-                          },
-                    child: Text(
-                      _isLogin
-                          ? 'Create New Account'
-                          : 'I have already an Account',
-                      style: const TextStyle(color: Colors.black),
-                    ))
+                  onPressed: widget._isLoading
+                      ? null
+                      : () {
+                          setState(() {
+                            _isLogin = !_isLogin;
+                          });
+                        },
+                  child: Text(
+                    _isLogin
+                        ? 'Create New Account'
+                        : 'I have already an Account',
+                    style: const TextStyle(color: Colors.black),
+                  ),
+                ),
               ],
             ),
           ),

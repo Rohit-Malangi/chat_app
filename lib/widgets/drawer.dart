@@ -4,8 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:whatsapp_clone/database/database_method.dart';
-import 'package:whatsapp_clone/widgets/image_picker.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+
+import '../database/database_method.dart';
+import '../widgets/image_picker.dart';
 
 class MyDrawer extends StatefulWidget {
   const MyDrawer({Key? key, required this.currUser}) : super(key: key);
@@ -69,15 +71,16 @@ class _MyDrawerState extends State<MyDrawer> {
               ClipRRect(
                 borderRadius: BorderRadius.circular(50),
                 child: SizedBox(
-                  height: 100,
-                  width: 100,
-                  child: imageUrl == ''
-                      ? const Text('Loading...')
-                      : Image.network(
-                          imageUrl,
-                          fit: BoxFit.cover,
-                        ),
-                ),
+                    height: 100,
+                    width: 100,
+                    child: imageUrl == ''
+                        ? const Text('Loading...')
+                        : CachedNetworkImage(
+                            placeholder: (context, imageUrl) =>
+                                const CircularProgressIndicator(),
+                            imageUrl: imageUrl,
+                            fit: BoxFit.cover,
+                          )),
               ),
               const SizedBox(height: 10),
               Text(userName == '' ? 'Loading...' : userName,
@@ -197,7 +200,7 @@ class _MyDrawerState extends State<MyDrawer> {
                 onTap: () => FirebaseAuth.instance.signOut(),
                 child: const ListTile(
                     title: Text(
-                  'Exit',
+                  'Sign Out',
                   style: TextStyle(color: Colors.white),
                 )),
               ),

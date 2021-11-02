@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:whatsapp_clone/screens/chat_screen.dart';
-import 'package:whatsapp_clone/widgets/chat_room_tile.dart';
-import 'package:whatsapp_clone/widgets/drawer.dart';
+
+import '../screens/chat_screen.dart';
+import '../widgets/chat_room_tile.dart';
+import '../widgets/drawer.dart';
 
 // ignore: must_be_immutable
 class HomeScreen extends StatefulWidget {

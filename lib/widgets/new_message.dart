@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:random_string/random_string.dart';
-import 'package:whatsapp_clone/database/database_method.dart';
+
+import '../database/database_method.dart';
 
 class NewMessage extends StatefulWidget {
   const NewMessage({Key? key, required this.otherUser}) : super(key: key);

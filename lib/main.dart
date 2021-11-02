@@ -21,7 +21,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        // Courgette kaushanScript() Sofia
         textTheme: TextTheme(
             bodyText1: GoogleFonts.courgette(),
             bodyText2: GoogleFonts.roboto()),
@@ -33,7 +32,8 @@ class MyApp extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const SplashScreen();
             }
-            if (snapshot.hasData) {
+            if (FirebaseAuth.instance.currentUser != null &&
+                FirebaseAuth.instance.currentUser!.emailVerified) {
               return HomeScreen();
             }
             return const AuthScreen();
