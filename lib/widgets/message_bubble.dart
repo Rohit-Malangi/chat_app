@@ -78,7 +78,7 @@ class MessageBubble extends StatelessWidget {
               child: Text(
                 message,
                 softWrap: true,
-                style: Theme.of(context).textTheme.bodyText2!.merge(
+                style: Theme.of(context).textTheme.bodyMedium!.merge(
                       const TextStyle(
                         color: Colors.white,
                       ),

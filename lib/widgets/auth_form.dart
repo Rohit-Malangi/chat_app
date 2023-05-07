@@ -18,7 +18,7 @@ class AuthForm extends StatefulWidget {
   }) submitAuthForm;
   final bool _isLoading;
   @override
-  _AuthFormState createState() => _AuthFormState();
+  State<AuthForm> createState() => _AuthFormState();
 }
 
 class _AuthFormState extends State<AuthForm> {
@@ -160,7 +160,7 @@ class _AuthFormState extends State<AuthForm> {
                 widget._isLoading
                     ? const CircularProgressIndicator()
                     : ElevatedButton(
-                        style: ElevatedButton.styleFrom(primary: Colors.black),
+                        style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
                         onPressed: _trySummit,
                         child: Text(_isLogin ? 'Login' : 'SignUp')),
                 TextButton(

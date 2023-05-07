@@ -143,7 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
         foregroundColor: Colors.white,
         title: Text(
           'CHAT APP',
-          style: Theme.of(context).textTheme.bodyText1!.merge(
+          style: Theme.of(context).textTheme.bodyLarge!.merge(
                 const TextStyle(
                   color: Colors.white,
                   fontSize: 20,

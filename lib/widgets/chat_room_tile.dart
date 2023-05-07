@@ -19,7 +19,7 @@ class ChatRoomTile extends StatefulWidget {
   final Timestamp time;
 
   @override
-  _ChatRoomTileState createState() => _ChatRoomTileState();
+  State<ChatRoomTile> createState() => _ChatRoomTileState();
 }
 
 class _ChatRoomTileState extends State<ChatRoomTile> {
@@ -75,7 +75,7 @@ class _ChatRoomTileState extends State<ChatRoomTile> {
           maxLines: 1,
           style: Theme.of(context)
               .textTheme
-              .bodyText1!
+              .bodyLarge!
               .merge(const TextStyle(fontSize: 18)),
         ),
         subtitle: Text(

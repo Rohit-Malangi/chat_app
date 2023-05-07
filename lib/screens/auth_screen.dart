@@ -1,15 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
+import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
+import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
 
+import '../database/database_method.dart';
+import '../utils/constants.dart';
 import '../widgets/auth_form.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({Key? key}) : super(key: key);
 
   @override
-  _AuthScreenState createState() => _AuthScreenState();
+  State<AuthScreen> createState() => _AuthScreenState();
 }
 
 class _AuthScreenState extends State<AuthScreen> {
@@ -24,7 +28,19 @@ class _AuthScreenState extends State<AuthScreen> {
       setState(() {
         _isLoading = true;
       });
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      await _auth
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then((credential) async {
+            DocumentSnapshot<Map<String, dynamic>> qs =
+          await DataBase().getUserInfo(FirebaseAuth.instance.currentUser!.uid);
+        await ZegoUIKitPrebuiltCallInvitationService().init(
+          appID: Constants.appId,
+          appSign: Constants.appSign,
+          userID: credential.user!.uid,
+          userName: qs['username'],
+          plugins: [ZegoUIKitSignalingPlugin()],
+        );
+      });
     } on PlatformException catch (error) {
       var message = 'An Error ocurred, please cheak your credentials';
       if (error.message != null) {
@@ -63,7 +79,7 @@ class _AuthScreenState extends State<AuthScreen> {
               Text(
                 'CHAT APP',
                 softWrap: true,
-                style: Theme.of(context).textTheme.bodyText1!.merge(
+                style: Theme.of(context).textTheme.bodyLarge!.merge(
                       const TextStyle(
                         color: Colors.white,
                         fontSize: 50,

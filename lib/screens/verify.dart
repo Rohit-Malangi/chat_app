@@ -17,7 +17,7 @@ class Verify extends StatefulWidget {
   final File? userImage;
 
   @override
-  _VerifyState createState() => _VerifyState();
+  State<Verify> createState() => _VerifyState();
 }
 
 class _VerifyState extends State<Verify> {
@@ -55,7 +55,7 @@ class _VerifyState extends State<Verify> {
     final ref = FirebaseStorage.instance
         .ref()
         .child('user_image')
-        .child(_auth.currentUser!.uid + '.jpg');
+        .child('${_auth.currentUser!.uid}.jpg');
     await ref.putFile(widget.userImage!).whenComplete(() => null);
     final url = await ref.getDownloadURL();
     await FirebaseFirestore.instance

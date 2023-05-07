@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 
 import '../widgets/new_message.dart';
 import '../widgets/messages.dart';
@@ -25,7 +26,7 @@ class ChatScreen extends StatelessWidget {
           username.toUpperCase(),
           style: Theme.of(context)
               .textTheme
-              .bodyText1!
+              .bodyLarge!
               .merge(const TextStyle(color: Colors.black, fontSize: 20)),
         ),
         leading: Padding(
@@ -43,6 +44,32 @@ class ChatScreen extends StatelessWidget {
                 )),
           ),
         ),
+        actions: [
+          ZegoSendCallInvitationButton(
+            buttonSize: const Size(40, 40),
+            iconSize: const Size(40, 40),
+              isVideoCall: true,
+              resourceID: "zegouikit_call", // For offline call notification
+              invitees: [
+                ZegoUIKitUser(
+                  id: otherUser,
+                  name: username,
+                ),
+              ],
+            ),
+        ZegoSendCallInvitationButton(
+            iconSize: const Size(40, 40),
+            buttonSize: const Size(40, 40),
+              isVideoCall: false,
+              resourceID: "zegouikit_call", // For offline call notification
+              invitees: [
+                ZegoUIKitUser(
+                  id: otherUser,
+                  name: username,
+                ),
+              ],
+            ),
+        ],
       ),
       body: Column(
         children: [

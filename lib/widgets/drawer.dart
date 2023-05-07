@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 
 import '../database/database_method.dart';
 import '../widgets/image_picker.dart';
@@ -44,7 +45,7 @@ class _MyDrawerState extends State<MyDrawer> {
     final ref = FirebaseStorage.instance
         .ref()
         .child('user_image')
-        .child(widget.currUser + '.jpg');
+        .child('${widget.currUser}.jpg');
 
     await ref.putFile(newImage!).whenComplete(() => null);
 
@@ -197,7 +198,10 @@ class _MyDrawerState extends State<MyDrawer> {
               ),
               const Divider(color: Colors.white),
               InkWell(
-                onTap: () => FirebaseAuth.instance.signOut(),
+                onTap: () {
+                  ZegoUIKitPrebuiltCallInvitationService().uninit();
+                  FirebaseAuth.instance.signOut();
+                },
                 child: const ListTile(
                     title: Text(
                   'Sign Out',

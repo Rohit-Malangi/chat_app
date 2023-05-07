@@ -9,7 +9,7 @@ class NewMessage extends StatefulWidget {
 
   final String otherUser;
   @override
-  _NewMessageState createState() => _NewMessageState();
+  State<NewMessage> createState() => _NewMessageState();
 }
 
 class _NewMessageState extends State<NewMessage> {

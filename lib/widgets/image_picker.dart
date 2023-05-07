@@ -9,7 +9,7 @@ class ImageInput extends StatefulWidget {
   final void Function(File image) pickedImage;
 
   @override
-  _ImageInputState createState() => _ImageInputState();
+  State<ImageInput> createState() => _ImageInputState();
 }
 
 class _ImageInputState extends State<ImageInput> {
@@ -41,6 +41,7 @@ class _ImageInputState extends State<ImageInput> {
           decoration: BoxDecoration(
             border: Border.all(width: 1, color: Colors.grey),
           ),
+          alignment: Alignment.center,
           child: _stordImage != null
               ? Image.file(
                   _stordImage!,
@@ -52,7 +53,6 @@ class _ImageInputState extends State<ImageInput> {
                   textAlign: TextAlign.center,
                   softWrap: true,
                 ),
-          alignment: Alignment.center,
         ),
         Expanded(
           child: Column(
